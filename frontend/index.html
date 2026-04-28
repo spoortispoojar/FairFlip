@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FairFlip</title>
+</head>
+<body>
+
+<h2>Coin Flip Game</h2>
+
+<button onclick="connectWallet()">Connect Wallet</button>
+<br><br>
+
+<button onclick="commitMove()">Commit</button>
+<button onclick="revealMove()">Reveal</button>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
+<input type="text" id="secret" placeholder="Enter secret" />
+<select id="choice">
+  <option value="0">Heads</option>
+  <option value="1">Tails</option>
+</select>
