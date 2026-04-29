@@ -26,6 +26,7 @@ contract CoinFlip {
     // ------------------ JOIN GAME ------------------
     function joinGame() public payable {
         require(msg.value > 0, "Send ETH");
+        require(!gameEnded, "Game already ended");
 
         if (player1 == address(0)) {
             player1 = msg.sender;
@@ -49,7 +50,6 @@ contract CoinFlip {
             hash2 = _hash;
         }
 
-        // Start reveal timer when both committed
         if (hash1 != 0 && hash2 != 0) {
             revealDeadline = block.timestamp + REVEAL_TIME;
         }
@@ -98,6 +98,8 @@ contract CoinFlip {
         gameEnded = true;
 
         payable(winner).transfer(address(this).balance);
+
+        resetGame(); // ✅ IMPORTANT FIX
     }
 
     // ------------------ TIMEOUT ------------------
@@ -118,5 +120,28 @@ contract CoinFlip {
         gameEnded = true;
 
         payable(winner).transfer(address(this).balance);
+
+        resetGame(); // ✅ IMPORTANT FIX
+    }
+
+    // ------------------ RESET GAME ------------------
+    function resetGame() internal {
+        player1 = address(0);
+        player2 = address(0);
+
+        betAmount = 0;
+
+        hash1 = 0;
+        hash2 = 0;
+
+        secret1 = 0;
+        secret2 = 0;
+
+        revealed1 = false;
+        revealed2 = false;
+
+        gameEnded = false;
+
+        revealDeadline = 0;
     }
 }
